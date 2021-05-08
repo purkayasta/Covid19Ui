@@ -1,23 +1,22 @@
-import { IHistoricData, IHistory } from "../Interfaces/IHistoricData";
+import { IHistory, ILineGraph } from "../Interfaces/IHistoricData";
 
 export const BuildLineChart = (data: IHistory[]) => {
-  console.log("From BuildLineChart : " + data.length);
-  // for (const c of data) {
-  //   console.log(c);
-  // }
-  // console.log("Total cases: " + data.length);
-  // let curratedData: IHistory[] = [];
-  // let lastAffectedNumber: number = 0;
+  let curratedData: ILineGraph[] = [];
+  let lastAffectedNumber: number = 0;
 
-  // for (let data in datas) {
-  //   console.log("Affected: " + datas[data].affected);
-  //   // if (datas[data].date) {
-  //   //   curratedData.push({
-  //   //     date: datas[data].date,
-  //   //     affected: datas[data].affected - lastAffectedNumber,
-  //   //   });
-  //   //   lastAffectedNumber = datas[data].affected;
-  //   // }
-  // }
-  // console.log(curratedData);
+  for (let i in data) {
+    // console.log("Date: " + typeof i);
+    // console.log("Affected: " + typeof data[i]);
+    // console.log(new Date(i));
+    if (lastAffectedNumber) {
+      curratedData.push({
+        x: i,
+        y: Number(data[i]) - lastAffectedNumber,
+      });
+    }
+
+    lastAffectedNumber = Number(data[i]);
+  }
+  console.log(curratedData);
+  return curratedData;
 };

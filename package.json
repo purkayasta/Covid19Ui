@@ -1,6 +1,8 @@
 {
   "name": "covid_ui",
   "version": "0.1.0",
+  "author": "Pritom Purkayasta",
+  "repository": "https://github.com/purkayasta/Covid19Ui",
   "private": true,
   "engines": {
     "node": "16.1.0"
@@ -15,7 +17,6 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "chart.js": "^3.2.1",
-    "cors-anywhere": "^0.4.4",
     "react": "^17.0.2",
     "react-chartjs-2": "^3.0.3",
     "react-dom": "^17.0.2",

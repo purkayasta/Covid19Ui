@@ -1,12 +1,26 @@
 import { FC, useEffect, useState } from "react";
 import { WorldWideHistoricalUrl } from "../../Helper/UrlHelper";
+import { BuildLineChart } from "../../Helper/GraphHelper";
 import { Line } from "react-chartjs-2";
-import { IHistoricData, IHistory } from "../../Interfaces/IHistoricData";
+import { ILineGraph } from "../../Interfaces/IHistoricData";
 
 export const HistoricalChart: FC = () => {
-  const [historicalData, setHistoricalData] = useState<IHistoricData>();
+  const [historicalData, setHistoricalData] = useState<ILineGraph[]>();
 
-  const options: any = {
+  const options = {
+    legend: {
+      display: false,
+    },
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    maintainAspectRatio: false,
+    tooltips: {
+      mode: "index",
+      intersect: false,
+    },
     scales: {
       xAxes: [
         {
@@ -22,63 +36,45 @@ export const HistoricalChart: FC = () => {
           gridLines: {
             display: false,
           },
-          ticks: {
-            beginAtZero: true,
-          },
         },
       ],
     },
   };
+
   const data: any = {
-    labels: ["1", "2", "3", "4", "5", "6"],
     datasets: [
       {
-        label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
+        label: "Affected Case",
+        data: historicalData,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "rgba(204, 16, 52, 0.5)",
+        borderColor: "#CC1034",
       },
     ],
   };
+
   useEffect(() => {
+    const getHistoricalData = async () => {
+      const response = await fetch(WorldWideHistoricalUrl);
+      const jsonResponse = await response.json();
+
+      if (jsonResponse) {
+        // setHistoricalData(jsonResponse);
+        // console.log(jsonResponse.cases);
+        const chartData = BuildLineChart(jsonResponse.cases);
+        setHistoricalData(chartData);
+      }
+    };
     getHistoricalData();
   }, []);
 
-  useEffect(() => {
-    if (historicalData?.cases) {
-      console.log("From UseEffect: " + historicalData.cases);
-      BuildLineChart();
-    }
-  }, [historicalData]);
-
-  const getHistoricalData = async () => {
-    const fetching = await fetch(WorldWideHistoricalUrl);
-
-    const data = await fetching.json();
-
-    return data;
-
-    // .then((response) => response.json())
-    // .then((data: IHistoricData) => {
-    //   console.log("From the Fetch: " + data.cases);
-    //   BuildLineChart(data);
-    // });
-  };
-
-  const BuildLineChart = () => {
-    if (historicalData?.cases) {
-      console.log(
-        "From The Build Line Function Using Hooks: " +
-          historicalData.cases.values
-      );
-      console.log(historicalData.cases.length);
-    }
-  };
-
   return (
     <div>
-      <Line type={Line} data={data} options={options} />
+      {historicalData ? (
+        <Line type={Line} data={data} options={options} />
+      ) : (
+        "Not Ready Yet"
+      )}
     </div>
   );
 };

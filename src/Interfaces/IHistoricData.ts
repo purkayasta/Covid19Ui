@@ -8,3 +8,8 @@ export interface IHistoricData {
   deaths: IHistory[];
   recovered: IHistory[];
 }
+
+export interface ILineGraph {
+  x: string,
+  y: number
+}
