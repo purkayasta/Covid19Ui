@@ -8,6 +8,7 @@ import { AllCountriesApiUrl, AllInfoUrl } from "./Helper/UrlHelper";
 import { ICountryInterface } from "./Interfaces/ICountryInterface";
 import { ICountryName } from "./Interfaces/ICountryName";
 import { IWorldWideInfo } from "./Interfaces/IWorldWideInfo";
+import { Footer } from "./Pages/Footer/Footer";
 import { Navbar } from "./Pages/Navbar/Navbar";
 
 function App() {
@@ -22,8 +23,6 @@ function App() {
 
   const onSelectedCountryChange = async (event: any) => {
     const countryCode = event.target.value;
-    console.log("County Code: " + countryCode);
-
     if (countryCode === "worldwide") {
       if (summaryInfo) {
         setTileInfo(summaryInfo);
@@ -33,7 +32,7 @@ function App() {
     } else {
       setSelectedCountry(countryCode);
       const selectedCodeInfo = allInformationByCountries.find(
-        (y) => y.countryInfo.iso3 === countryCode
+        (y) => y.countryInfo.iso2 === countryCode
       );
 
       const selectedCountryTileInfo: IWorldWideInfo = {
@@ -67,7 +66,9 @@ function App() {
         setAllInformations(sortedResponse);
         const countriesArray = sortedResponse.map((x: ICountryInterface) => ({
           Name: x.country,
-          Code: x.countryInfo.iso3,
+          Code: x.countryInfo.iso2,
+          Updated: x.updated,
+          CountryInfo: x.countryInfo,
         }));
         setCountryNames(countriesArray);
       });
@@ -79,41 +80,44 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <div className="left_container">
-        <Navbar
-          allCountriesName={countryNames}
-          selectedCountry={selectedCountry}
-          onSelectedCountryChange={onSelectedCountryChange}
-        />
-        <div className="app_stats">
-          <DashboardTile
-            title="Todays Cases"
-            today={tileInfo?.todayCases}
-            total={tileInfo?.cases}
+    <div>
+      <div className="app">
+        <div className="left_container">
+          <Navbar
+            allCountriesName={countryNames}
+            selectedCountry={selectedCountry}
+            onSelectedCountryChange={onSelectedCountryChange}
           />
-          <DashboardTile
-            title="Deaths"
-            today={tileInfo?.todayDeaths}
-            total={tileInfo?.deaths}
-          />
-          <DashboardTile
-            title="Recovered"
-            today={tileInfo?.recovered}
-            total={tileInfo?.recovered}
-          />
+          <div className="app_stats">
+            <DashboardTile
+              title="Affected Cases"
+              todaysCount={tileInfo?.todayCases}
+              total={tileInfo?.cases}
+            />
+            <DashboardTile
+              title="Deaths"
+              todaysCount={tileInfo?.todayDeaths}
+              total={tileInfo?.deaths}
+            />
+            <DashboardTile
+              title="Recovered"
+              todaysCount={tileInfo?.recovered}
+              total={tileInfo?.recovered}
+            />
+          </div>
+        </div>
+        <div className="right_container">
+          <Card>
+            <CardContent>
+              <h4>Cases List by Country</h4>
+              <DashboardCaseList CaseList={allInformationByCountries} />
+              <h4>World Wide New Cases</h4>
+              <HistoricalChart />
+            </CardContent>
+          </Card>
         </div>
       </div>
-      <div className="right_container">
-        <Card>
-          <CardContent>
-            <h4>Cases List by Country</h4>
-            <DashboardCaseList CaseList={allInformationByCountries} />
-            <h4>World Wide New Cases</h4>
-            <HistoricalChart />
-          </CardContent>
-        </Card>
-      </div>
+      <Footer />
     </div>
   );
 }

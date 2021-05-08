@@ -5,9 +5,6 @@ export const BuildLineChart = (data: IHistory[]) => {
   let lastAffectedNumber: number = 0;
 
   for (let i in data) {
-    // console.log("Date: " + typeof i);
-    // console.log("Affected: " + typeof data[i]);
-    // console.log(new Date(i));
     if (lastAffectedNumber) {
       curratedData.push({
         x: i,
@@ -17,6 +14,5 @@ export const BuildLineChart = (data: IHistory[]) => {
 
     lastAffectedNumber = Number(data[i]);
   }
-  console.log(curratedData);
   return curratedData;
 };

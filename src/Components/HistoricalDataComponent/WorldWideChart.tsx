@@ -59,8 +59,6 @@ export const HistoricalChart: FC = () => {
       const jsonResponse = await response.json();
 
       if (jsonResponse) {
-        // setHistoricalData(jsonResponse);
-        // console.log(jsonResponse.cases);
         const chartData = BuildLineChart(jsonResponse.cases);
         setHistoricalData(chartData);
       }

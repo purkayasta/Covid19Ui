@@ -1,5 +1,5 @@
-import { FormControl, MenuItem, Select, Typography } from "@material-ui/core";
-import React, { FC } from "react";
+import { FormControl, MenuItem, Select } from "@material-ui/core";
+import { FC } from "react";
 import { ICountryName } from "../../Interfaces/ICountryName";
 import "./Navbar.css";
 
@@ -15,9 +15,9 @@ export const Navbar: FC<INavbar> = ({
   onSelectedCountryChange,
 }) => {
   return (
-    <div className="app__header">
-      <Typography variant="h5">Covid 19 UI</Typography>
-      <FormControl className="app__dropdown">
+    <div className="app_header">
+      <h1 className="headerFont">Covid 19 Dashboard</h1>
+      <FormControl>
         <Select
           variant="outlined"
           value={selectedCountry}
@@ -25,7 +25,7 @@ export const Navbar: FC<INavbar> = ({
         >
           <MenuItem value="worldwide">WorldWide</MenuItem>
           {allCountriesName.map((country) => (
-            <MenuItem key={country.Code} value={country.Code}>
+            <MenuItem key={country.Name} value={country.Code}>
               {country.Name}
             </MenuItem>
           ))}

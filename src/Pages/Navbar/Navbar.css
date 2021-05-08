@@ -1,6 +1,18 @@
-.app__header {
+@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
+
+.app_header {
   display: flex;
   justify-content: space-between;
   text-align: center;
   margin-bottom: 25px;
+  
 }
+.headerFont {
+  color: darkslateblue;
+  font-size: 55px;
+  font-family: "Bangers", cursive;
+  font-weight: bold;
+}
+/* body {
+  font-family: 'Bangers', cursive;
+} */

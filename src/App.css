@@ -13,11 +13,16 @@
 }
 
 .left_container {
-  flex: 0.8;
+  flex: 0.9;
 }
 
 @media (max-width: 850px) {
   .app {
     flex-direction: column;
+  }
+}
+@media (max-width: 200px) {
+  .app {
+    flex-direction: row;
   }
 }
