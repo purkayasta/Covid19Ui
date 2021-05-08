@@ -1,11 +1,23 @@
 * {
   margin: 0;
 }
-
-body {
-  background-color: #f5f6fa;
+.app {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
 }
+
 .app_stats {
   display: flex;
   justify-content: space-between;
+}
+
+.left_container {
+  flex: 0.8;
+}
+
+@media (max-width: 850px) {
+  .app {
+    flex-direction: column;
+  }
 }

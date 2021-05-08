@@ -1,49 +1,118 @@
+import { Card, CardContent } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import "./App.css";
+import { DashboardCaseList } from "./Components/DashboardCaseListComponent/DashboardCaseList";
 import { DashboardTile } from "./Components/DashboardTile";
-import { CountriesApiUrl } from "./Helper/UrlHelper";
-import { ICountryInterface } from "./Interfaces/CountryInterface";
+import { HistoricalChart } from "./Components/HistoricalDataComponent/WorldWideChart";
+import { AllCountriesApiUrl, AllInfoUrl } from "./Helper/UrlHelper";
+import { ICountryInterface } from "./Interfaces/ICountryInterface";
 import { ICountryName } from "./Interfaces/ICountryName";
+import { IWorldWideInfo } from "./Interfaces/IWorldWideInfo";
 import { Navbar } from "./Pages/Navbar/Navbar";
 
 function App() {
-  const [countries, setCountries] = useState<ICountryName[]>([]);
-  const [country, setCountry] = useState<string>("worldwide");
+  const [tileInfo, setTileInfo] = useState<IWorldWideInfo>();
+  const [countryNames, setCountryNames] = useState<ICountryName[]>([]);
+  const [summaryInfo, setSummaryInfo] = useState<IWorldWideInfo>();
+
+  const [allInformationByCountries, setAllInformations] = useState<
+    ICountryInterface[]
+  >([]);
+  const [selectedCountry, setSelectedCountry] = useState<string>("worldwide");
 
   const onSelectedCountryChange = async (event: any) => {
     const countryCode = event.target.value;
     console.log("County Code: " + countryCode);
-    setCountry(countryCode);
+
+    if (countryCode === "worldwide") {
+      if (summaryInfo) {
+        setTileInfo(summaryInfo);
+      } else {
+        await getSummaryAsync();
+      }
+    } else {
+      setSelectedCountry(countryCode);
+      const selectedCodeInfo = allInformationByCountries.find(
+        (y) => y.countryInfo.iso3 === countryCode
+      );
+
+      const selectedCountryTileInfo: IWorldWideInfo = {
+        cases: selectedCodeInfo?.cases,
+        todayCases: selectedCodeInfo?.todayCases,
+        deaths: selectedCodeInfo?.deaths,
+        todayDeaths: selectedCodeInfo?.todayDeaths,
+        recovered: selectedCodeInfo?.recovered,
+        active: selectedCodeInfo?.active,
+        critical: selectedCodeInfo?.critical,
+        todayRecovered: selectedCodeInfo?.todayRecovered,
+      };
+
+      setTileInfo(selectedCountryTileInfo);
+    }
+  };
+  const getSummaryAsync = async () => {
+    await fetch(AllInfoUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setTileInfo(data);
+        setSummaryInfo(data);
+      });
+  };
+
+  const getAllInformationsByCountryAsync = async () => {
+    await fetch(AllCountriesApiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        var sortedResponse = data.sort();
+        setAllInformations(sortedResponse);
+        const countriesArray = sortedResponse.map((x: ICountryInterface) => ({
+          Name: x.country,
+          Code: x.countryInfo.iso3,
+        }));
+        setCountryNames(countriesArray);
+      });
   };
 
   useEffect(() => {
-    const getCountriesAsync = async () => {
-      await fetch(CountriesApiUrl)
-        .then((response) => response.json())
-        .then((data) => {
-          const countriesArray = data.map((x: ICountryInterface) => ({
-            Name: x.country,
-            Code: x.countryInfo.iso3,
-          }));
-          setCountries(countriesArray);
-        });
-    };
-    getCountriesAsync();
+    getAllInformationsByCountryAsync();
+    getSummaryAsync();
   }, []);
 
   return (
     <div className="app">
       <div className="left_container">
         <Navbar
-          allCountriesName={countries}
-          selectedCountry={country}
+          allCountriesName={countryNames}
+          selectedCountry={selectedCountry}
           onSelectedCountryChange={onSelectedCountryChange}
         />
         <div className="app_stats">
-          <DashboardTile title="Coronavirus Cases" cases={12} total={200} />
-          <DashboardTile title="Recovered" cases={12} total={300} />
-          <DashboardTile title="Deaths" cases={12} total={500} />
+          <DashboardTile
+            title="Todays Cases"
+            today={tileInfo?.todayCases}
+            total={tileInfo?.cases}
+          />
+          <DashboardTile
+            title="Deaths"
+            today={tileInfo?.todayDeaths}
+            total={tileInfo?.deaths}
+          />
+          <DashboardTile
+            title="Recovered"
+            today={tileInfo?.recovered}
+            total={tileInfo?.recovered}
+          />
         </div>
+      </div>
+      <div className="right_container">
+        <Card>
+          <CardContent>
+            <h4>Cases List by Country</h4>
+            <DashboardCaseList CaseList={allInformationByCountries} />
+            <h4>World Wide New Cases</h4>
+            <HistoricalChart />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

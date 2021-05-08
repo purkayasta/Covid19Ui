@@ -1,0 +1,24 @@
+.caselist_table {
+  margin-top: 20px;
+  overflow: scroll;
+  height: 350px;
+  color: black;
+}
+
+table thead tr {
+  background-color: black;
+  color:white;
+}
+
+table td {
+  padding: 0.3rem;
+}
+
+table tr {
+  display: flex;
+  justify-content: space-between;
+}
+
+table tbody tr:nth-of-type(odd) {
+  background-color: lightslategray;
+}

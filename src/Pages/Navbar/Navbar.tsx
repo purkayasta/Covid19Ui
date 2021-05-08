@@ -1,12 +1,4 @@
-import {
-  AppBar,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+import { FormControl, MenuItem, Select, Typography } from "@material-ui/core";
 import React, { FC } from "react";
 import { ICountryName } from "../../Interfaces/ICountryName";
 import "./Navbar.css";
@@ -33,7 +25,9 @@ export const Navbar: FC<INavbar> = ({
         >
           <MenuItem value="worldwide">WorldWide</MenuItem>
           {allCountriesName.map((country) => (
-            <MenuItem key={country.Code} value={country.Code}>{country.Name}</MenuItem>
+            <MenuItem key={country.Code} value={country.Code}>
+              {country.Name}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
