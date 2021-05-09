@@ -50,28 +50,24 @@ function App() {
     }
   };
   const getSummaryAsync = async () => {
-    await fetch(AllInfoUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setTileInfo(data);
-        setSummaryInfo(data);
-      });
+    let data = await fetch(AllInfoUrl).then((response) => response.json());
+    setTileInfo(data);
+    setSummaryInfo(data);
   };
 
   const getAllInformationsByCountryAsync = async () => {
-    await fetch(AllCountriesApiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        var sortedResponse = data.sort();
-        setAllInformations(sortedResponse);
-        const countriesArray = sortedResponse.map((x: ICountryInterface) => ({
-          Name: x.country,
-          Code: x.countryInfo.iso2,
-          Updated: x.updated,
-          CountryInfo: x.countryInfo,
-        }));
-        setCountryNames(countriesArray);
-      });
+    let data = await fetch(AllCountriesApiUrl).then((response) =>
+      response.json()
+    );
+    var sortedResponse = data.sort();
+    setAllInformations(sortedResponse);
+    const countriesArray = sortedResponse.map((x: ICountryInterface) => ({
+      Name: x.country,
+      Code: x.countryInfo.iso2,
+      Updated: x.updated,
+      CountryInfo: x.countryInfo,
+    }));
+    setCountryNames(countriesArray);
   };
 
   useEffect(() => {
@@ -105,6 +101,8 @@ function App() {
               total={tileInfo?.recovered}
             />
           </div>
+
+          <HistoricalChart />
         </div>
         <div className="right_container">
           <Card>
@@ -112,7 +110,6 @@ function App() {
               <h4>Cases List by Country</h4>
               <DashboardCaseList CaseList={allInformationByCountries} />
               <h4>World Wide New Cases</h4>
-              <HistoricalChart />
             </CardContent>
           </Card>
         </div>
