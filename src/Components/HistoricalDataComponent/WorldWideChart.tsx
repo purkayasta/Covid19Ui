@@ -1,8 +1,15 @@
+import { Card, CardContent, makeStyles } from "@material-ui/core";
 import { FC, useEffect, useState } from "react";
 import { WorldWideHistoricalUrl } from "../../Helper/UrlHelper";
 import { BuildLineChart } from "../../Helper/GraphHelper";
 import { Line } from "react-chartjs-2";
 import { ILineGraph } from "../../Interfaces/IHistoricData";
+
+const useStyles = makeStyles({
+  root: {
+    marginTop: "10px",
+  },
+});
 
 export const HistoricalChart: FC = () => {
   const [historicalData, setHistoricalData] = useState<ILineGraph[]>();
@@ -66,13 +73,16 @@ export const HistoricalChart: FC = () => {
     getHistoricalData();
   }, []);
 
+  const classes = useStyles();
   return (
-    <div>
-      {historicalData ? (
-        <Line type={Line} data={data} options={options} />
-      ) : (
-        "Not Ready Yet"
-      )}
-    </div>
+    <Card className={classes.root}>
+      <CardContent>
+        {historicalData ? (
+          <Line type={Line} data={data} options={options} />
+        ) : (
+          "Not Ready Yet"
+        )}
+      </CardContent>
+    </Card>
   );
 };

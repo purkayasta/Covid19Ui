@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-evenly;
   padding: 20px;
+  height: calc(100vh - 11vh);
 }
 
 .app_stats {
