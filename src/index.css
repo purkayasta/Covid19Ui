@@ -1,5 +1,7 @@
 body {
   background-color: #f5f6fa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 * {
   font-family: "PT Serif", serif;
