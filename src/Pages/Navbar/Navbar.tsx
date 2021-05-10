@@ -16,7 +16,7 @@ export const Navbar: FC<INavbar> = ({
 }) => {
   return (
     <div className="app_header">
-      <h1 className="headerFont">Covid 19 Dashboard</h1>
+      <p className="headerFont">Covid 19 UI</p>
       <FormControl>
         <Select
           variant="outlined"

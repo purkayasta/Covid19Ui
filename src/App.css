@@ -1,29 +1,4 @@
 * {
   margin: 0;
 }
-.app {
-  display: flex;
-  justify-content: space-evenly;
-  padding: 20px;
-  height: calc(100vh - 11vh);
-}
 
-.app_stats {
-  display: flex;
-  justify-content: space-between;
-}
-
-.left_container {
-  flex: 0.9;
-}
-
-@media (max-width: 850px) {
-  .app {
-    flex-direction: column;
-  }
-}
-@media (max-width: 200px) {
-  .app {
-    flex-direction: row;
-  }
-}

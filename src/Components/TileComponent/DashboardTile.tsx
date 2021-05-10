@@ -1,5 +1,6 @@
 import { Card, CardContent, makeStyles, Typography } from "@material-ui/core";
 import { FC } from "react";
+import "./DashboardTile.css";
 
 interface ITile {
   title?: string;
@@ -9,19 +10,20 @@ interface ITile {
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 300,
-    // maxWidth: 350,
+    textAlign: "center",
   },
   bullet: {
     display: "inline-block",
-    margin: "0 5px",
+    margin: "5px",
     transform: "scale(0.8)",
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
+    color: "green",
+    fontFamily: "Roboto Slab",
   },
   pos: {
-    marginBottom: 12,
+    marginBottom: 10,
   },
 });
 
@@ -30,11 +32,9 @@ export const DashboardTile: FC<ITile> = ({ title, todaysCount, total }) => {
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-        <Typography className={classes.title} color="primary">
-          {title}
-        </Typography>
-        <h1>{todaysCount}</h1>
-        <Typography color="textSecondary">{total} total</Typography>
+        <Typography className={classes.title}>{title}</Typography>
+        <h2>{todaysCount}</h2>
+        <Typography color="textSecondary">Total: {total}</Typography>
       </CardContent>
     </Card>
   );

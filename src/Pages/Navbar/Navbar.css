@@ -8,11 +8,20 @@
   
 }
 .headerFont {
-  color: darkslateblue;
-  font-size: 55px;
+  color: rgb(122, 14, 20);
+  font-size: 50px;
   font-family: "Bangers", cursive;
-  font-weight: bold;
+  padding-left: 20px;
+  margin: 0;
 }
-/* body {
-  font-family: 'Bangers', cursive;
-} */
+
+@media (max-width: 850px) {
+  .app_header {
+    flex-direction: column;
+  }
+}
+@media (max-width: 200px) {
+  .app_header {
+    flex-direction: row;
+  }
+}
