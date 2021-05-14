@@ -2,7 +2,6 @@ import { FormControl, MenuItem, Select } from "@material-ui/core";
 import { FC } from "react";
 import { ICountryName } from "../../Interfaces/ICountryName";
 import "./Navbar.css";
-import logo from "../../logo.png";
 
 interface INavbar {
   allCountriesName: ICountryName[];
