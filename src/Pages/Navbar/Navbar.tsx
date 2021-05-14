@@ -24,7 +24,6 @@ export const Navbar: FC<INavbar> = ({
           value={selectedCountry}
           onChange={onSelectedCountryChange}
         >
-          <MenuItem value="worldwide">WorldWide</MenuItem>
           {allCountriesName.map((country) => (
             <MenuItem key={country.Name} value={country.Code}>
               {country.Name}

@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import { BuildLineChart } from "../../Helper/GraphHelper";
 import { IBuildChartData } from "../../Interfaces/IHistoricData";
 import { Line } from "react-chartjs-2";
-import "./HistoricalChart.css";
 
 export interface IHistoricChart {
   countryName: string;

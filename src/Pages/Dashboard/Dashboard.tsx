@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { CaseTable } from "../../Components/CaseTableComponent/CaseTable";
 import { DashboardTile } from "../../Components/TileComponent/DashboardTile";
 import { HistoricalChart } from "../../Components/WorldChartComponent/HistoricalChart";
-import { AllCountriesApiUrl, AllInfoUrl } from "../../Helper/UrlHelper";
+import { AllCountriesApiUrl } from "../../Helper/UrlHelper";
 import { ICountryInterface } from "../../Interfaces/ICountryInterface";
 import { ICountryName } from "../../Interfaces/ICountryName";
 import { IWorldWideInfo } from "../../Interfaces/IWorldWideInfo";
@@ -11,7 +11,6 @@ import { Navbar } from "../Navbar/Navbar";
 
 export const Dashboard = () => {
   const [tileInfo, setTileInfo] = useState<IWorldWideInfo>();
-  const [summaryInfo, setSummaryInfo] = useState<IWorldWideInfo>();
   const [countryNames, setCountryNames] = useState<ICountryName[]>([]);
   const [allInformationByCountries, setAllInformations] = useState<
     ICountryInterface[]
@@ -23,18 +22,14 @@ export const Dashboard = () => {
 
   const onSelectedCountryChange = async (event: any) => {
     const countryCode = event.target.value;
-    if (countryCode === "worldwide") {
-      if (summaryInfo) {
-        setTileInfo(summaryInfo);
-      } else {
-        await getSummaryAsync();
-      }
-    } else {
-      setSelectedCountry(countryCode);
-      setTile(countryCode);
-    }
+    setSelectedCountry(countryCode);
+    setTile(countryCode);
     var name = countryNames.filter((x) => x.Code === countryCode);
-    setSelectedCountryName(name[0].Name);
+    if (name) {
+      setSelectedCountryName(name[0]?.Name);
+    } else {
+      setSelectedCountryName("Bangladesh");
+    }
   };
 
   const setTile = (countryCode: string) => {
@@ -58,12 +53,6 @@ export const Dashboard = () => {
     }
   };
 
-  const getSummaryAsync = async () => {
-    let data = await (await fetch(AllInfoUrl)).json();
-    setTileInfo(data);
-    setSummaryInfo(data);
-  };
-
   const getAllInformationsByCountryAsync = async () => {
     let data = await (await fetch(AllCountriesApiUrl)).json();
     var sortedResponse = data.sort();
@@ -83,7 +72,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     setTile(selectedCountry);
-  }, [allInformationByCountries]);
+  }, [allInformationByCountries, selectedCountry]);
 
   return (
     <div>
@@ -121,7 +110,7 @@ export const Dashboard = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} direction="column">
+            <Grid item xs={12}>
               <Grid container justify="center">
                 <Grid item xs>
                   <HistoricalChart countryName={selectedCountryName} />
