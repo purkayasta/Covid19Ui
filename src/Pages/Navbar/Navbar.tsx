@@ -2,6 +2,7 @@ import { FormControl, MenuItem, Select } from "@material-ui/core";
 import { FC } from "react";
 import { ICountryName } from "../../Interfaces/ICountryName";
 import "./Navbar.css";
+import logo from "../../logo.png";
 
 interface INavbar {
   allCountriesName: ICountryName[];
@@ -16,7 +17,8 @@ export const Navbar: FC<INavbar> = ({
 }) => {
   return (
     <div className="app_header">
-      <p className="headerFont">Covid 19 UI</p>
+      <p className="headerFont">Novel Coronavirus Dashboard</p>
+
       <FormControl>
         <Select
           variant="outlined"

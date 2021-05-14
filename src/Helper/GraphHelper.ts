@@ -1,18 +1,18 @@
-import { IHistory, ILineGraph } from "../Interfaces/IHistoricData";
+import { IBuildChartData, IHistoricData } from "../Interfaces/IHistoricData";
 
-export const BuildLineChart = (data: IHistory[]) => {
-  let curratedData: ILineGraph[] = [];
-  let lastAffectedNumber: number = 0;
+export const BuildLineChart = (data: IHistoricData) => {
+  let value: IBuildChartData[] = [];
 
-  for (let i in data) {
-    if (lastAffectedNumber) {
-      curratedData.push({
-        x: i,
-        y: Number(data[i]) - lastAffectedNumber,
+  let index = 0;
+  const casesJson = data.timeline.cases;
+  for (let i in casesJson) {
+    if (index % 7 === 0) {
+      value.push({
+        chartDates: i,
+        chartCounts: Number(casesJson[i]),
       });
     }
-
-    lastAffectedNumber = Number(data[i]);
+    index++;
   }
-  return curratedData;
+  return value;
 };

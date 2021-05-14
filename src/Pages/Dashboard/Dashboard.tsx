@@ -2,12 +2,11 @@ import { Card, CardContent, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { CaseTable } from "../../Components/CaseTableComponent/CaseTable";
 import { DashboardTile } from "../../Components/TileComponent/DashboardTile";
-import { HistoricalChart } from "../../Components/WorldChartComponent/WorldWideChart";
+import { HistoricalChart } from "../../Components/WorldChartComponent/HistoricalChart";
 import { AllCountriesApiUrl, AllInfoUrl } from "../../Helper/UrlHelper";
 import { ICountryInterface } from "../../Interfaces/ICountryInterface";
 import { ICountryName } from "../../Interfaces/ICountryName";
 import { IWorldWideInfo } from "../../Interfaces/IWorldWideInfo";
-import { Footer } from "../Footer/Footer";
 import { Navbar } from "../Navbar/Navbar";
 
 export const Dashboard = () => {
@@ -17,7 +16,10 @@ export const Dashboard = () => {
   const [allInformationByCountries, setAllInformations] = useState<
     ICountryInterface[]
   >([]);
-  const [selectedCountry, setSelectedCountry] = useState<string>("worldwide");
+  const [selectedCountry, setSelectedCountry] = useState<string>("BD");
+
+  const [selectedCountryName, setSelectedCountryName] =
+    useState<string>("Bangladesh");
 
   const onSelectedCountryChange = async (event: any) => {
     const countryCode = event.target.value;
@@ -29,6 +31,14 @@ export const Dashboard = () => {
       }
     } else {
       setSelectedCountry(countryCode);
+      setTile(countryCode);
+    }
+    var name = countryNames.filter((x) => x.Code === countryCode);
+    setSelectedCountryName(name[0].Name);
+  };
+
+  const setTile = (countryCode: string) => {
+    if (allInformationByCountries.length > 0) {
       const selectedCodeInfo = allInformationByCountries.find(
         (y) => y.countryInfo.iso2 === countryCode
       );
@@ -69,18 +79,22 @@ export const Dashboard = () => {
 
   useEffect(() => {
     getAllInformationsByCountryAsync();
-    getSummaryAsync();
   }, []);
+
+  useEffect(() => {
+    setTile(selectedCountry);
+  }, [allInformationByCountries]);
 
   return (
     <div>
-      <Grid container spacing={2} direction="row">
-        <Grid item xs={8}>
+      <Grid container spacing={3} direction="row">
+        <Grid item xs={12}>
           <Navbar
             allCountriesName={countryNames}
             selectedCountry={selectedCountry}
             onSelectedCountryChange={onSelectedCountryChange}
           />
+
           <Grid container spacing={3} direction="column">
             <Grid item xs={12}>
               <Grid container justify="center">
@@ -107,20 +121,24 @@ export const Dashboard = () => {
                 </Grid>
               </Grid>
             </Grid>
+            <Grid item xs={12} direction="column">
+              <Grid container justify="center">
+                <Grid item xs>
+                  <HistoricalChart countryName={selectedCountryName} />
+                </Grid>
+                <Grid item xs>
+                  <Card>
+                    <CardContent>
+                      <h4>Cases List by Country</h4>
+                      <CaseTable CaseList={allInformationByCountries} />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <Card>
-            <CardContent>
-              <h4>Cases List by Country</h4>
-              <CaseTable CaseList={allInformationByCountries} />
-              <h4>World Wide New Cases</h4>
-              <HistoricalChart />
-            </CardContent>
-          </Card>
-        </Grid>
       </Grid>
-      <Footer />
     </div>
   );
 };

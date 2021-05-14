@@ -4,12 +4,18 @@ export interface IHistory {
 }
 
 export interface IHistoricData {
+  country: string;
+  province: string;
+  timeline: ITimelineData;
+}
+
+export interface ITimelineData {
   cases: IHistory[];
   deaths: IHistory[];
   recovered: IHistory[];
 }
 
-export interface ILineGraph {
-  x: string,
-  y: number
+export interface IBuildChartData {
+  chartDates: string;
+  chartCounts: number;
 }
