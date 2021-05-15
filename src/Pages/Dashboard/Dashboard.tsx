@@ -21,7 +21,7 @@ export const Dashboard = () => {
     useState<string>("Bangladesh");
 
   const onSelectedCountryChange = async (event: any) => {
-    const countryCode = event.target.value;
+    let countryCode = event.target.value;
     setSelectedCountry(countryCode);
     setTile(countryCode);
     var name = countryNames.filter((x) => x.Code === countryCode);
@@ -72,6 +72,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     setTile(selectedCountry);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allInformationByCountries, selectedCountry]);
 
   return (

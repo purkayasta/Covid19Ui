@@ -46,7 +46,8 @@ export const HistoricalChart: FC<IHistoricChart> = ({ countryName }) => {
   };
   useEffect(() => {
     getHistoricalData();
-  }, [countryName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="ChartContainer">
