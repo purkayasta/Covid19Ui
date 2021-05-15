@@ -1,6 +1,5 @@
 import "./CaseTable.css";
 import { FC } from "react";
-import { ICountryInterface } from "../../Interfaces/ICountryInterface";
 import {
   Paper,
   Table,
@@ -10,10 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-
-interface ICaseTable {
-  CaseList: ICountryInterface[];
-}
+import { ICaseTable } from "../../Interfaces/IDashboardCaseTable";
 
 export const CaseTable: FC<ICaseTable> = ({ CaseList }) => {
   return (

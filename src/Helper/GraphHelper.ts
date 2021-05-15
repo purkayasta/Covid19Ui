@@ -1,4 +1,5 @@
 import { IBuildChartData, IHistoricData } from "../Interfaces/IHistoricData";
+import { IMapData } from "../Interfaces/IMapInterface";
 
 interface IDate {
   date: Date;
@@ -32,4 +33,14 @@ export const BuildLineChart = (data: IHistoricData) => {
   }
 
   return value;
+};
+
+export const SortByRecoverdNumber = function (value1: IMapData, value2: IMapData) {
+  if (value1.value > value2.value) {
+    return 1;
+  }
+  if (value1.value < value2.value) {
+    return -1;
+  }
+  return 0;
 };

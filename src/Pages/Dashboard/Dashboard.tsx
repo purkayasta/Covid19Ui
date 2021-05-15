@@ -1,6 +1,7 @@
 import { Card, CardContent, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { CaseTable } from "../../Components/CaseTableComponent/CaseTable";
+import { MapChartComponent } from "../../Components/MapComponent/MapChartComponent";
 import { DashboardTile } from "../../Components/TileComponent/DashboardTile";
 import { HistoricalChart } from "../../Components/WorldChartComponent/HistoricalChart";
 import { AllCountriesApiUrl } from "../../Helper/UrlHelper";
@@ -33,6 +34,7 @@ export const Dashboard = () => {
   };
 
   const setTile = (countryCode: string) => {
+    console.log("Set tile called");
     if (allInformationByCountries.length > 0) {
       const selectedCodeInfo = allInformationByCountries.find(
         (y) => y.countryInfo.iso2 === countryCode
@@ -57,6 +59,7 @@ export const Dashboard = () => {
     let data = await (await fetch(AllCountriesApiUrl)).json();
     var sortedResponse = data.sort();
     setAllInformations(sortedResponse);
+    console.log("Get All Info Checked");
     const countriesArray = sortedResponse.map((x: ICountryInterface) => ({
       Name: x.country,
       Code: x.countryInfo.iso2,
@@ -125,6 +128,9 @@ export const Dashboard = () => {
                   </Card>
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <MapChartComponent CaseList={allInformationByCountries} />
             </Grid>
           </Grid>
         </Grid>

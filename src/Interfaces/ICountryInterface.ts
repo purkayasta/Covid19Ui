@@ -33,3 +33,8 @@ export interface ICountryInterface {
   recoveredPerOneMillion: number;
   criticalPerOneMillion: number;
 }
+
+export interface IRecoveredMapData {
+  country: string;
+  recovered: number;
+}
